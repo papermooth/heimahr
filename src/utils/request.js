@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Message } from 'element-ui'
 import store from '@/store'
+import router from '@/router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -29,6 +30,7 @@ service.interceptors.response.use((response) => {
     return Promise.reject(new Error(message))
   }
 }, async(error) => {
+  
   // error.message
   Message({ type: 'error', message: error.message })
   return Promise.reject(error)
