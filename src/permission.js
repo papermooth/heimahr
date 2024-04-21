@@ -19,6 +19,9 @@ router.beforeEach(async(to, from, next) => {
       // next（地址）并没有执行后置守卫
       nprogress.done()
     } else {
+      if(!store.getters.userId) {
+        await store.dispatch("user/getUserInfo")
+      }
        next() // 放行
     }
   } else {
