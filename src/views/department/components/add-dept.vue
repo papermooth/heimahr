@@ -40,6 +40,10 @@
         type: Boolean,
         default: false
       },
+      currentNodeId: {
+      type: Number,
+      default: null
+    }
     },
     data () {
     return  {

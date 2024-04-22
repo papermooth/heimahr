@@ -10,7 +10,7 @@
             <el-col :span="4">
               <span class="tree-manager">{{ data.managerName }}</span>
               <!-- $event 实参 表示类型 -->
-              <el-dropdown @command="operateDept">
+              <el-dropdown @command="operateDept($event, data.id)">
                 <!-- 显示区域内容 -->
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
@@ -27,7 +27,7 @@
         </template>
   </el-tree>
     </div>
-    <add-dept  :show-dialog.sync="showDialog"  />
+    <add-dept :current-node-id="currentNodeId" :show-dialog.sync="showDialog"  />
   </div>
 </template>
 <script>
@@ -39,6 +39,7 @@ export default {
   components:{AddDept},
   data() {
     return  {
+        currentNodeId: null, // 存储当前点击的id
         showDialog: false,
       depts: [],
       defaultProps: {
@@ -56,9 +57,10 @@ export default {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
     },
-    operateDept(type) {
+    operateDept(type,id) {
       if(type === 'add') {
         this.showDialog = true
+        this.currentNodeId = id
       }
     }
   }
