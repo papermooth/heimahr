@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="app-container">
-        <el-tree default-expand-all :data="depts" :props="defaultProps">
+        <el-tree default-expand-all :expand-on-click-node="false" :data="depts" :props="defaultProps">
         <!-- 节点结构 -->
         <!-- v-slot="{ node, data }" 只能作用在template -->
         <template v-slot="{ data }">
@@ -10,7 +10,7 @@
             <el-col :span="4">
               <span class="tree-manager">{{ data.managerName }}</span>
               <!-- $event 实参 表示类型 -->
-              <el-dropdown >
+              <el-dropdown @command="operateDept">
                 <!-- 显示区域内容 -->
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
@@ -27,23 +27,20 @@
         </template>
   </el-tree>
     </div>
+    <add-dept  :show-dialog.sync="showDialog"  />
   </div>
 </template>
 <script>
 import { getDepartment } from '@/api/department'
 import {transListToTreeData} from '@/utils'
+import AddDept from './components/add-dept.vue'
 export default {
   name: 'Department',
+  components:{AddDept},
   data() {
     return  {
-      depts: [{
-        name: '传智教育',managerName:'管理员',
-        children: [
-          { name: '总裁办',managerName:'张三'},
-          { name: '行政部',managerName:'李四'},
-          { name: '财务部',managerName:'王五'}
-        ]
-      }],
+        showDialog: false,
+      depts: [],
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -58,6 +55,11 @@ export default {
     async getDepartment() {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
+    },
+    operateDept(type) {
+      if(type === 'add') {
+        this.showDialog = true
+      }
     }
   }
 }
