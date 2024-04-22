@@ -27,7 +27,7 @@
         </template>
   </el-tree>
     </div>
-    <add-dept @updateDepartment="getDepartment" :current-node-id="currentNodeId" :show-dialog.sync="showDialog"  />
+    <add-dept ref="addDept" @updateDepartment="getDepartment" :current-node-id="currentNodeId" :show-dialog.sync="showDialog"  />
   </div>
 </template>
 <script>
@@ -57,11 +57,24 @@ export default {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
     },
-    operateDept(type,id) {
-      if(type === 'add') {
-        this.showDialog = true
+    // 操作部门方法
+    operateDept(type, id) {
+      if (type === 'add') {
+        // 添加子部门
+        this.showDialog = true // 显示弹层
         this.currentNodeId = id
-      }
+      } else if (type === 'edit') {
+        // 编辑部门场景
+        this.showDialog = true
+        this.currentNodeId = id // 记录id 要用它获取数据
+        // 更新props- 异步动作
+        // 直接调用了子组件的方法 同步的方法
+        // 要在子组件获取数据
+        // 父组件调用子组件的方法来获取数据
+        this.$nextTick(() => {
+          this.$refs.addDept.getDepartmentDetail() // this.$refs.addDept等同于子组件的this
+        })
+      } 
     }
   }
 }
