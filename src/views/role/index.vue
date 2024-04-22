@@ -9,9 +9,21 @@
       <el-table :data="list">
         <!-- 放置列 -->
         <el-table-column prop="name" align="center" width="200" label="角色" />
-        <el-table-column prop="state" align="center" width="200" label="启用" />
+        <el-table-column prop="state" align="center" width="200" label="启用" >
+          <!-- 自定义列结构 -->
+    <template v-slot="{ row }">
+      <span>  {{ row.state === 1 ? "已启用" : row.state === 0 ? "未启用" : "无" }} </span>
+    </template>
+        </el-table-column>
         <el-table-column prop="description" align="center" label="描述" />
-        <el-table-column  align="center" label="操作" />
+        <el-table-column  align="center" label="操作" >
+           <!-- 放置操作按钮 -->
+    <template>
+        <el-button size="mini" type="text">分配权限</el-button>
+        <el-button size="mini" type="text">编辑</el-button>
+        <el-button size="mini" type="text">删除</el-button>
+    </template>
+</el-table-column>
       </el-table>
       <!-- 放置分页组件 -->
       <el-row type="flex" style="height:60px" align="middle" justify="end">
