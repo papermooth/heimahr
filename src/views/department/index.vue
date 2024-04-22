@@ -31,6 +31,7 @@
 </template>
 <script>
 import { getDepartment } from '@/api/department'
+import {transListToTreeData} from '@/utils'
 export default {
   name: 'Department',
   data() {
@@ -50,13 +51,14 @@ export default {
     }
   },
   created() {
-    this.getDepartment()
+    this.getDepartment() // 调用获取数据的接口
   },
   methods: {
-   async getDepartment() {
-    const result = await getDepartment()
-    this.depts = result
-   }
+    // 封装好方法
+    async getDepartment() {
+      const result = await getDepartment()
+      this.depts = transListToTreeData(result, 0)
+    }
   }
 }
 </script>
