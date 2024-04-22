@@ -27,6 +27,7 @@
     </el-dialog>
   </template>
   <script>
+  import {getDepartment} from '@/api/department'
   export default {
     name: 'AddDept',
     props: {
@@ -48,7 +49,21 @@
         code: [{ required: true, message: '部门编码不能为空', trigger: 'blur' },
           {
             min: 2, max: 10, message: '部门编码的长度为2-10个字符', trigger: 'blur'
-          }
+          },
+          {
+            trigger: 'blur',
+            // 自定义校验模式
+            validator: async(rule, value, callback) => {
+              // value就是输入的编码
+              let result = await getDepartment()
+              // result数组中是否存在 value值
+              if (result.some(item => item.code === value)) {
+                callback(new Error('部门中已经有该编码了'))
+              } else {
+                callback()
+              }
+            }
+}
         ], // 部门编码
         introduce: [{ required: true, message: '部门介绍不能为空', trigger: 'blur' }, {
           min: 1, max: 100, message: '部门介绍的长度为1-100个字符', trigger: 'blur'
@@ -57,7 +72,22 @@
         name: [{ required: true, message: '部门名称不能为空', trigger: 'blur' },
           {
             min: 2, max: 10, message: '部门名称的长度为2-10个字符', trigger: 'blur'
-          }] // 部门名称
+          },
+          {
+            trigger: 'blur',
+            // 自定义校验模式
+            validator: async(rule, value, callback) => {
+              // value就是输入的编码
+              let result = await getDepartment()
+              // result数组中是否存在 value值
+              if (result.some(item => item.name === value)) {
+                callback(new Error('部门中已经有该名称了'))
+              } else {
+                callback()
+              }
+            }
+          }
+        ] // 部门名称
         // pid: '' // 父级部门的id 不需要做校验
       }
     }
