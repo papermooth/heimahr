@@ -87,6 +87,6 @@ export default {
 .tree-manager {
   width: 50px;
   display: inline-block;
-  margin: 35px;
+  margin: 10px;
 }
 </style>
