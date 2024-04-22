@@ -27,7 +27,7 @@
         </template>
   </el-tree>
     </div>
-    <add-dept :current-node-id="currentNodeId" :show-dialog.sync="showDialog"  />
+    <add-dept @updateDepartment="getDepartment" :current-node-id="currentNodeId" :show-dialog.sync="showDialog"  />
   </div>
 </template>
 <script>
