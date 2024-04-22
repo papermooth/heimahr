@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import { getDepartment } from '@/api/department'
 export default {
   name: 'Department',
   data() {
@@ -47,6 +48,15 @@ export default {
         label: 'name'
       }
     }
+  },
+  created() {
+    this.getDepartment()
+  },
+  methods: {
+   async getDepartment() {
+    const result = await getDepartment()
+    this.depts = result
+   }
   }
 }
 </script>
@@ -58,6 +68,6 @@ export default {
 .tree-manager {
   width: 50px;
   display: inline-block;
-  margin: 10px;
+  margin: 35px;
 }
 </style>
