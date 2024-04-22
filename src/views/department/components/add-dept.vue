@@ -9,6 +9,11 @@
       </el-form-item>
       <el-form-item prop="managerId" label="部门负责人">
         <el-select v-model="formData.managerId" placeholder="请选择负责人" style="width: 80%" size="mini">
+        <!-- 下拉选项 循环 负责人数据 label表示显示的字段 value 存储字段 -->
+    <el-option v-for="item in managerList" 
+      :key="item.id" 
+      :label="item.username"
+      :value="item.id" />
         </el-select>
       </el-form-item>
       <el-form-item prop="introduce" label="部门介绍">
@@ -27,7 +32,7 @@
     </el-dialog>
   </template>
   <script>
-  import {getDepartment} from '@/api/department'
+  import {getDepartment, getManagerList} from '@/api/department'
   export default {
     name: 'AddDept',
     props: {
@@ -38,6 +43,7 @@
     },
     data () {
     return  {
+    managerList: [], // 存储负责人列表
       formData: {
         code: '', // 部门编码
         introduce: '', // 部门介绍
@@ -90,12 +96,19 @@
         ] // 部门名称
         // pid: '' // 父级部门的id 不需要做校验
       }
+
     }
+  },
+  created() {
+    this.getManagerList()
   },
     methods: {
       close() {
         this.$emit('update:showDialog', false)
-      }
+      },
+      async getManagerList() {
+     this.managerList = await getManagerList()
+    }
     }
   }
   </script>

@@ -10,3 +10,14 @@ export function getDepartment() {
     url: '/company/department'
   })
 }
+
+/**
+ *
+ *  获取部门负责人的数据
+ * **/
+
+export function getManagerList() {
+    return request({
+      url: '/sys/user/simple'
+    })
+  }
