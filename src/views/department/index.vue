@@ -51,7 +51,7 @@ export default {
   created() {
     this.getDepartment() // 调用获取数据的接口
   },
-  methods: {
+   methods: {
     // 封装好方法
     async getDepartment() {
       const result = await getDepartment()
